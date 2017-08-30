@@ -1,0 +1,27 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  product_name: chef
+  product_version: 12
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: ubuntu-14.04
+  - name: centos-7.3
+
+suites:
+  - name: default
+    run_list:
+      - recipe[acme_server]
+      - recipe[certbotssl_test::default]
+    attributes:
+      boulder:
+        revision: 2d33a9900cafe82993744fe73bd341fe47df2171
+      certbot:
+        endpoint: http://127.0.0.1:4000
+        contact: admin@example.com

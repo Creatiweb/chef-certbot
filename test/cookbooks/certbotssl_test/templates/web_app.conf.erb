@@ -1,0 +1,32 @@
+<VirtualHost *:<%= @params[:ssl_server_port] %>>
+  ServerName <%= @params[:server_name] %>
+  DocumentRoot <%= @params[:docroot] %>
+
+  SSLEngine on
+
+  SSLCertificateFile <%= @params[:crt] %>
+  SSLCertificateChainFile <%= @params[:chain] %>
+  SSLCertificateKeyFile <%= @params[:key] %>
+</VirtualHost>
+
+<VirtualHost *:<%= @params[:server_port] %>>
+    ServerName  <%= @params[:server_name] %>
+    <% if @params[:server_aliases] -%>
+    ServerAlias <%= @params[:server_aliases].join " " %>
+    <% end -%>
+
+    DocumentRoot <%= @params[:docroot] %>
+
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteCond %{REQUEST_URI} !^/.well-known.*
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    <Directory "<%= @params[:docroot] %>">
+        Options None
+        Require all granted
+        AllowOverride None
+        ForceType text/plain
+        RedirectMatch 404 "^(?!/\.well-known/acme-challenge/[\w-]{43}$)"
+    </Directory>
+</VirtualHost>
