@@ -139,9 +139,9 @@ Authors: Fabio Todaro
 
 Let’s Encrypt is a trademark of the Internet Security Research Group. All rights reserved.
 
-[1]: https://ietf-wg-acme.github.io/acme/
-[2]: https://letsencrypt.org/
+https://ietf-wg-acme.github.io/acme/
+https://letsencrypt.org/
 
 Certbot is published by the Electronic Frontier Foundation. All rights reserved.
 
-[1]: https://certbot.eff.org
+https://certbot.eff.org
