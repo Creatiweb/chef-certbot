@@ -24,11 +24,11 @@ module CertBot
 
     cert.extensions = []
 
-    alts.unshift(cn)
+    fqdns = [cn] + alts
 
     cert.extensions += [ef.create_extension('basicConstraints', 'CA:FALSE', true)]
     cert.extensions += [ef.create_extension('subjectKeyIdentifier', 'hash')]
-    cert.extensions += [ef.create_extension('subjectAltName', alts.map { |d| "DNS:#{d}"}.join(','))] if alts.length > 0
+    cert.extensions += [ef.create_extension('subjectAltName', fqdns.map { |d| "DNS:#{d}"}.join(','))] if fqdns.length > 0
 
     cert.sign key, OpenSSL::Digest::SHA256.new
   end
